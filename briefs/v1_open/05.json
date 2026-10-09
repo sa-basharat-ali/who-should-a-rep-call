@@ -1,0 +1,9 @@
+```json
+{
+  "pos_system": "Square",
+  "uses_delivery_apps": true,
+  "has_own_online_ordering": false,
+  "monthly_delivery_app_orders": 336,
+  "opening_line": "Hi, I'm reaching out because Tony's Slice is doing about 336 delivery app orders a month, and I'd like to show you how restaurants like yours can start taking some of those orders through their own online ordering to keep more of the margin."
+}
+```

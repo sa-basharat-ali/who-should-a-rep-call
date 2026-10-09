@@ -1,0 +1,9 @@
+```json
+{
+  "pos_system": null,
+  "uses_delivery_apps": false,
+  "has_own_online_ordering": false,
+  "monthly_delivery_app_orders": 0,
+  "opening_line": "I noticed Saffron House doesn't currently take online orders on its own site, so I wanted to ask how you're handling takeout and delivery demand today."
+}
+```

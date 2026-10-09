@@ -1,0 +1,9 @@
+```json
+{
+  "pos_system": "Square",
+  "uses_delivery_apps": null,
+  "has_own_online_ordering": true,
+  "monthly_delivery_app_orders": null,
+  "opening_line": "Hi, I'm calling about Pho Corner #26. I see you're already running Square and taking online orders, so I'd like to ask how you're handling delivery orders today."
+}
+```

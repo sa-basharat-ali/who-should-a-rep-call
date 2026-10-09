@@ -1,0 +1,9 @@
+```json
+{
+  "pos_system": "Square",
+  "uses_delivery_apps": true,
+  "has_own_online_ordering": "unknown",
+  "monthly_delivery_app_orders": 336,
+  "opening_line": "Tony's Slice #6 runs on Square and gets 336 monthly orders from delivery apps, with a 4.3 Google rating from 274 reviews."
+}
+```

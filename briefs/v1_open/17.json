@@ -1,0 +1,9 @@
+```json
+{
+  "pos_system": "Square",
+  "uses_delivery_apps": null,
+  "has_own_online_ordering": false,
+  "monthly_delivery_app_orders": null,
+  "opening_line": "I noticed Casa Lupita #18 runs on Square but doesn't have its own online ordering, so I wanted to ask how much of your pizza business comes through third-party apps versus direct orders."
+}
+```

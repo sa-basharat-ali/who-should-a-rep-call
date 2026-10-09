@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Who should a rep call?</title>
+<meta name="description" content="Propensity vs uplift on a synthetic restaurant outbound book, and an eval of Claude-written account briefs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f4ef;--paper:#fffefa;--ink:#16171a;--mute:#65676b;--line:#dcdad2;--line2:#ecebe4;--green:#13784b;--green-soft:#e1f2e8;--red:#b9372b;--red-soft:#f9e5e1;--amber:#9a6200;--amber-soft:#fcefd6;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--sans:"Space Grotesk",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0e0f11;--paper:#16181b;--ink:#e9eae6;--mute:#9a9ea3;--line:#2b2e33;--line2:#202327;--green:#5fd398;--green-soft:#163325;--red:#ff8b7d;--red-soft:#3a1d19;--amber:#f0b45a;--amber-soft:#36280f;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--sans);padding:28px 16px 64px;font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:18px}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.strip div{padding:9px 16px;border-right:1px solid var(--line)}.strip div:last-child{border-right:0}
+.lbl{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.val{font-weight:500;font-size:14px}
+h1{font:700 clamp(30px,5vw,46px)/1.05 var(--sans);letter-spacing:-.025em;margin:14px 0 12px;text-wrap:balance}
+.lede{color:var(--mute);max-width:66ch;margin:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--line)}
+.head h2{font:600 19px/1.3 var(--sans);margin:0;text-wrap:balance}
+.head .no{font:500 12px var(--mono);color:var(--mute)}
+.body{padding:16px 18px}
+p{margin:0 0 12px;max-width:68ch}
+.note{font-size:13.5px;color:var(--mute)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+th{font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--mute);text-align:left;padding:8px 14px;border-bottom:1px solid var(--line)}
+td{padding:10px 14px;border-bottom:1px solid var(--line2)}
+tr:last-child td{border-bottom:0}
+.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+.hi{background:var(--green-soft)}.hi td:first-child{font-weight:600}
+.lo td.n:nth-child(4){color:var(--red);font-weight:600}
+.flip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.flip div{background:var(--paper);padding:16px 18px}
+.flip b{display:block;font:600 34px var(--mono);letter-spacing:-.02em}
+.flip span{font-size:13.5px;color:var(--mute)}
+.red{color:var(--red)}.green{color:var(--green)}
+.got{border-color:var(--amber)}.got .head{background:var(--amber-soft)}.got .head h2{color:var(--amber)}
+ol{margin:0;padding-left:20px;display:grid;gap:10px;max-width:70ch}
+code{font:13px var(--mono);background:var(--line2);padding:1px 5px;border-radius:4px}
+pre{font:12.5px/1.6 var(--mono);background:var(--line2);padding:12px 14px;border-radius:8px;overflow-x:auto;margin:0}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
+a{color:var(--green)}
+@media (max-width:620px){.strip{grid-template-columns:1fr}.strip div{border-right:0;border-bottom:1px solid var(--line)}.flip{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="strip">
+    <div><div class="lbl">Role</div><div class="val">Lead, GTM Analytics &amp; Applied AI</div></div>
+    <div><div class="lbl">Company</div><div class="val">Owner</div></div>
+    <div><div class="lbl">Candidate</div><div class="val">Syed Ahmed Basharat Ali</div></div>
+  </div>
+
+  <header>
+    <h1>Who should a rep call, and what should the brief say?</h1>
+    <p class="lede">A synthetic outbound book for a restaurant software company on a flat $499/month subscription: 20,000 independent restaurants a quarter, capacity to work 5,000. Every restaurant has two hidden numbers, the chance it signs with no rep at all and the lift a rep adds. They are not the same restaurants.</p>
+  </header>
+
+  <section class="card">
+    <div class="head"><h2>The dashboard picks the wrong model</h2><span class="no">01 · this quarter's 5,000 calls</span></div>
+    <div class="flip">
+      <div><span>Measured LTV:CAC ranks first</span><b class="red">Propensity 4.98x</b><span>only 49% of its deals needed a rep</span></div>
+      <div><span>LTV:CAC on rep-caused deals ranks first</span><b class="green">Uplift 2.94x</b><span>79% rep-caused, within 0.16 of the oracle</span></div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Policy</th><th class="n">Signed</th><th class="n">Rep-caused</th><th class="n">LTV:CAC measured</th><th class="n">On rep-caused deals</th></tr></thead>
+      <tbody>
+        <tr><td>Old rule: intent first, then most reviews</td><td class="n">1,174</td><td class="n">30%</td><td class="n">4.19x</td><td class="n">1.29x</td></tr>
+        <tr class="lo"><td>Propensity: most likely to sign if worked</td><td class="n">1,367</td><td class="n">49%</td><td class="n">4.98x</td><td class="n">2.49x</td></tr>
+        <tr class="hi"><td>Uplift: most changed by a rep (holdout-trained)</td><td class="n">1,020</td><td class="n">79%</td><td class="n">3.74x</td><td class="n">2.94x</td></tr>
+        <tr><td>Oracle: true lift (unknowable)</td><td class="n">1,036</td><td class="n">80%</td><td class="n">3.85x</td><td class="n">3.10x</td></tr>
+      </tbody>
+    </table></div>
+    <div class="body"><p class="note" style="margin:0">Same 5,000 calls: the uplift list adds 133 rep-caused deals ($1.34M of lifetime value) and sends reps to none of the restaurants already on the pricing page. The propensity list spends 1,257 calls on them. The model is a T-learner trained on a 3,000-lead randomized holdout, half worked and half not.</p></div>
+  </section>
+
+  <section class="card">
+    <div class="head"><h2>Automated account research invents the fact the pitch depends on</h2><span class="no">02 · 80 Claude-written briefs</span></div>
+    <div class="body">
+      <p>Claude wrote a JSON brief for 40 restaurants whose CRM records were missing some fields. 68 missing fields can't be inferred from anything else in the record.</p>
+      <div class="tw" style="margin:0 -18px"><table>
+        <thead><tr><th>Prompt</th><th class="n">Stated an unknowable field</th><th class="n">Wrong</th><th class="n">Misread a given field</th></tr></thead>
+        <tbody>
+          <tr class="lo"><td>Open: "write a brief"</td><td class="n">12 of 68 (18%)</td><td class="n">4</td><td class="n">0 of 75</td></tr>
+          <tr class="hi"><td>Grounded: "use only the record, else unknown"</td><td class="n">0 of 68</td><td class="n">0</td><td class="n">0 of 75</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin:12px 0 0">10 of the 12 were <code>has_own_online_ordering = false</code>, the fact a pitch for a restaurant's own ordering is built on. Three of those restaurants already had it.</p>
+    </div>
+  </section>
+
+  <section class="card got">
+    <div class="head"><h2>The parts I got wrong</h2></div>
+    <div class="body"><ol>
+      <li>I first drew the holdout only from leads the old rule skipped. The uplift model had never seen a pricing-page restaurant go unworked, so it still sent reps to 358 of them, and only 67% of its deals were rep-caused. Drawn from the whole book: 0 and 79%. The holdout has to include the leads you'd work anyway, which is exactly what makes it expensive.</li>
+      <li>My first scoring of the briefs said 34% of missing fields were invented. Half were valid inferences: a record with 450 monthly app orders does use delivery apps. The real number is 18%.</li>
+    </ol></div>
+  </section>
+
+  <section class="card">
+    <div class="head"><h2>Run it</h2><span class="no">stdlib only</span></div>
+    <div class="body">
+<pre>python3 run.py                  # under a second: propensity vs uplift
+python3 research_eval.py        # scores the 80 cached briefs
+python3 research_eval.py --ask  # asks Claude again (Claude Code CLI)</pre>
+    </div>
+  </section>
+
+  <footer>
+    <span>Synthetic data, fixed seed. No real company, restaurant or rep.</span>
+    <span>Syed Ahmed Basharat Ali · sabasharat.ali@gmail.com · <a href="https://basharat.net">basharat.net</a> · <a href="https://github.com/sa-basharat-ali/who-should-a-rep-call">source</a></span>
+  </footer>
+</div>
+</body>
+</html>

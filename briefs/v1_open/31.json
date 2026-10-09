@@ -1,0 +1,11 @@
+```json
+{
+  "pos_system": null,
+  "uses_delivery_apps": null,
+  "has_own_online_ordering": false,
+  "monthly_delivery_app_orders": null,
+  "opening_line": "Hi, I'm calling about Blue Door Cafe because I noticed you don't have a website yet, and I'd like to show you how a simple online ordering setup could let you take orders directly without paying delivery app commissions."
+}
+```
+
+The CRM record doesn't contain POS, delivery app, or order volume data, and I have no web lookup available here, so those fields are `null` rather than guesses. `has_own_online_ordering` is `false` because the record shows no website. Checking the restaurant's listing or menu pages would fill in the nulls.
